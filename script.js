@@ -502,7 +502,7 @@ let brr = [
 		"unicode": "^"
 	},
 	{
-		"key": "Meta",
+		"key": "⌘",
 		"keyCode": 91,
 		"which": 91,
 		"code": "MetaLeft",
@@ -603,6 +603,19 @@ let brr = [
 	}
 ]
 
+
+let grreng = ['~', '!', '@', '#', "$", '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
+	'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', "Delete", 'CapsL', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter', "Shift", 'Z',
+	'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '▲', 'Shift', 'Ctrl', '⌘', 'Alt', "", 'Alt', '◀', '▼', '▶']
+
+let gru = ['ё', '1', '2', '3', "4", '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+	'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', "Delete", 'CapsL', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter', "Shift", 'я',
+	'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▲', 'Shift', 'Ctrl', '⌘', 'Alt', "", 'Alt', '◀', '▼', '▶']
+
+let grush = ['Ё', '!', '"', '№', ";", '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace',
+	'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', "Delete", 'CapsL', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter', "Shift", 'Я',
+	'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '▲', 'Shift', 'Ctrl', '⌘', 'Alt', "", 'Alt', '◀', '▼', '▶']
+
 function textArea() {
 	const textarea = `<h1>Виртуальная клавиатура Windows</h1>
 	<textarea id="story" name="story" class="textarea"
@@ -620,6 +633,8 @@ textArea();
 
 
 let div = document.querySelector('.cont');
+
+
 
 
 function renderCards(brr) {
@@ -651,12 +666,18 @@ let b = document.querySelectorAll('.bkey');
 
 let caps = document.getElementById('29');
 
+let flag = false;
+let count = 1;
+
+
+
 document.addEventListener('keydown', function (event) {
+
 	for (let i = 0; i < b.length; i++) {
 		if (event.code == b[i].getAttribute('data')) {
 
 			b[i].classList.add('active')
-
+			if (event.code == "NumpadSubtract") document.getElementById('11').classList.add('active');
 			if (event.code != "ControlLeft" && event.code != "AltLeft" && event.code != "MetaLeft"
 				&& event.code != "ShiftLeft" && event.code != "Enter" && event.code != "CapsLock" && event.code != "NumpadDecimal"
 				&& event.code != "Tab" && event.code != "Backspace")
@@ -668,15 +689,28 @@ document.addEventListener('keydown', function (event) {
 
 
 
-		/* if (event.code == "ControlLeft") {
-			document.onkeyup = function (event) {
-				if (event.code == "AltLeft") {
-					switch (b[i]) {
-						case 1: i.key.toUpperCase();
-					}
+		if (event.code == "ShiftLeft") {
+			if (count % 2 == 0) {
+				for (let i = 0; i < grush.length; i++) {
+					b[i].textContent = grush[i];
 				}
-			}
-		} */
+				document.getElementById('42').classList.add('active')
+
+
+			} else
+
+				for (let i = 0; i < grreng.length; i++) {
+					b[i].textContent = grreng[i];
+				}
+			document.getElementById('42').classList.add('active')
+
+
+
+		}
+
+
+
+
 
 	}
 
@@ -690,8 +724,80 @@ window.addEventListener('keyup', function (event) {
 		}
 
 
+		if (event.code == 'AltLeft') {
+			count++
+			document.getElementById('57').classList.remove('active')
+			document.getElementById('59').classList.remove('active')
+			return count / 64
+
+		}
+
+
+		if (event.code == "ShiftLeft") {
+			if (count % 2 == 0) {
+				for (let i = 0; i < gru.length; i++) {
+					b[i].textContent = gru[i];
+				}
+
+			} else
+
+				brr.forEach(function (el) {
+					b[i].textContent = el.key;
+					i++;
+				})
+
+
+			document.getElementById('42').classList.remove('active')
+			document.getElementById('54').classList.remove('active')
+
+			document.addEventListener('keyup', function (event) {
+				if (event.code == 'AltLeft') {
+
+
+					if (count % 2 !== 0) {
+						for (let i = 0; i < grreng.length; i++) {
+							b[i].textContent = gru[i];
+						}
+					}
+
+					if (count % 2 == 0) {
+						for (let i = 0; i < brr.length; i++) {
+							b[i].textContent = brr[i].key;
+						}
+					}
+
+
+				}
+			})
+
+		}
+
+		/* 	if (event.code == "AltLeft" && count % 2 !== 0) {
+				for (leti = 0; i < grreng.length; i++) {
+					b[i].textContent = gru[i];
+				}
+	
+				document.getElementById('57').classList.remove('active')
+				document.getElementById('59').classList.remove('active')
+			} */
+
+		/* 	if (event.code == "AltLeft" && count % 2 == 0) {
+				brr.forEach(function (el) {
+					b[i].textContent = el.key;
+					i++;
+				})
+	
+				document.getElementById('57').classList.remove('active')
+				document.getElementById('59').classList.remove('active')
+			}
+	 */
+
+
+
+
 	}
 })
+
 
 
 b.forEach(function (el) {
@@ -708,7 +814,7 @@ b.forEach(function (el) {
 	}
 })
 
-console.log(b.textContent)
+
 
 
 

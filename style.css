@@ -122,5 +122,5 @@ h1{
 .bkey.active{
 	background-color: yellow;
 	transition: all .3s ease;
-	border-radius: 10px;
+	border-radius: 20px;
 }
